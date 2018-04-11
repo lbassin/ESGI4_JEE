@@ -56,7 +56,7 @@
                             <center>
                                 <h2>Breizhlink</h2><br/>
                             </center>
-                            <form method="POST">
+                            <form method="post" action="/login">
                                 <fieldset class="uk-fieldset">
 
                                     <div class="uk-margin">
@@ -84,7 +84,7 @@
 
                                         <div class="uk-margin">
                                             <button type="submit" class="uk-button uk-button-primary">
-                                                <span class="ion-forward"></span>&nbsp; Se connecter
+                                                Se connecter
                                             </button>
                                         </div>
                                     </center>
@@ -96,7 +96,7 @@
                                             Pas encore de compte ?
                                         </p>
                                         <a href="register.html" class="uk-button uk-button-default">
-                                            <span class="ion-android-person-add"></span>&nbsp; S'enregistrer
+                                            S'enregistrer
                                         </a>
                                     </center>
                                 </fieldset>
