@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class Test extends HttpServlet {
+public class Index extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/test.jsp").forward(request, response);
+        System.out.println("Index Get");
+        this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }

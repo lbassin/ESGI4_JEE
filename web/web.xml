@@ -6,9 +6,19 @@
         version="3.0">
 
     <servlet>
+        <servlet-name>Index</servlet-name>
+        <servlet-class>urls.Index</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>Test</servlet-name>
         <servlet-class>urls.Test</servlet-class>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Index</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
