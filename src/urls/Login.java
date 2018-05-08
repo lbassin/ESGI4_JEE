@@ -10,8 +10,8 @@ import java.io.IOException;
 @WebServlet("/login")
 public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Index Get");
-        this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+        System.out.println("Login Get");
+        this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override

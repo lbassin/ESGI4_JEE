@@ -15,17 +15,17 @@
     <div class="uk-container uk-container-expand">
         <nav class="uk-navbar">
             <div class="uk-navbar-left">
-                <a href="../" class="uk-navbar-item uk-logo">
+                <a href="/" class="uk-navbar-item uk-logo">
                     <b>Breizhlink</b>
                 </a>
             </div>
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav uk-visible@m">
-                    <li class="uk-active"><a href="">Accueil</a></li>
+                    <li class="uk-active"><a href="/">Accueil</a></li>
                     <li><a href="">Présentation</a></li>
                 </ul>
                 <div class="uk-navbar-item uk-visible@m">
-                    <a href="" class="uk-button uk-button-default tm-button-default uk-icon"> Se connecter
+                    <a href="/login" class="uk-button uk-button-default tm-button-default uk-icon"> Se connecter
                     <canvas uk-icon="icon: sign-in" width="20" height="20" class="uk-icon" hidden="true"></canvas>
                     </a>
                 </div>
