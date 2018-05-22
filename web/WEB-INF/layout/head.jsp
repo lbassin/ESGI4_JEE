@@ -8,7 +8,7 @@
         <meta name="keywords" content="Admin,Panel,HTML,CSS,XML,JavaScript">
         <meta name="author" content="Erik Campobadal">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="assets/uikit/css/uikit.css" rel="stylesheet">
+        <link href="/assets/uikit/css/uikit.css" rel="stylesheet">
     </head>
 <body>
 <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky" style="">
