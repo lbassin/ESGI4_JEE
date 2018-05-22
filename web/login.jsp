@@ -7,7 +7,7 @@
         <div class="uk-card uk-card-default">
             <div class="uk-card-body">
                 <h2 class="uk-text-center">Breizhlink</h2>
-                <form method="post" action="/login">
+                <form method="post">
                     <fieldset class="uk-fieldset">
 
                         <div class="uk-margin">
@@ -59,4 +59,7 @@
     </div>
     <div class="uk-width-1-1@s uk-width-1-5@l uk-width-1-3@xl"></div>
 </div>
+
+<p class="${empty form.errors ? 'uk-alert-success' : 'uk-alert-danger'}">${form.result}</p>
+
 <jsp:include page="/WEB-INF/layout/foot.jsp"/>
