@@ -25,6 +25,12 @@
                         <div class="uk-margin uk-text-center">
                             <button id="submit" class="uk-button uk-button-default">Raccourcir</button>
                         </div>
+                        <div id="output-short-url" class="uk-margin" style="display: none;">
+                            <label class="uk-form-label" for="form-horizontal-text">Votre url raccourcie</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="form-horizontal-text" type="text" disabled>
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
                 <div class="uk-margin" id="response">
@@ -51,9 +57,11 @@
 
         var request = new XMLHttpRequest();
 
-        request.addEventListener("load", function (response) {
+        request.addEventListener("load", function (data) {
             button.disabled = false;
-            document.querySelector('#response').innerHTML = response.target.responseText;
+            var response = JSON.parse(data.target.responseText);
+            document.querySelector('#output-short-url').style.display = 'block';
+            document.querySelector('#output-short-url input').value = response.url;
         }, false);
 
         var params = {

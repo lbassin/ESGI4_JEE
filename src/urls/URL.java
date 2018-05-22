@@ -13,15 +13,13 @@ public class URL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String url = req.getParameter("url");
+        String longUrl = req.getParameter("url");
         String password = req.getParameter("password");
 
-        System.out.println(url + " " + password);
+        System.out.println(longUrl + " " + password);
 
-        Url.createShortUrl(url, password);
+        Url url = Url.createShortUrl(longUrl, password);
 
-        resp.getWriter().write("{url: '" + url + "', password: '" + password + "'}");
-
-//        Database.getConnection().prepareStatement()
+        resp.getWriter().write("{\"url\": \"" + url.getUrlShort() + "\"}");
     }
 }

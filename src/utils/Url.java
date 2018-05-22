@@ -25,6 +25,10 @@ public class Url {
         return this.id;
     }
 
+    public String getUrlShort() {
+        return this.urlShort;
+    }
+
     public void save() {
         Connection db = Database.getConnection();
         String query = "INSERT INTO `url` (url_long, url_short) VALUES (?, ?)";
