@@ -56,11 +56,18 @@
             document.querySelector('#response').innerHTML = response.target.responseText;
         }, false);
 
-        console.log(document.querySelector('[name=url]').value);
-        console.log(document.querySelector('[name=password]').value);
+        var params = {
+            url: document.querySelector('[name=url]').value,
+            password: document.querySelector('[name=password]').value
+        };
+
+        var searchParams = Object.keys(params).map(function (key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+        }).join('&');
 
         request.open('POST', '/url', false);
-        request.send("");
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.send(searchParams);
     });
 </script>
 
