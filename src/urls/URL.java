@@ -16,10 +16,10 @@ public class URL extends HttpServlet {
         String longUrl = req.getParameter("url");
         String password = req.getParameter("password");
 
-        System.out.println(longUrl + " " + password);
-
         Url url = Url.createShortUrl(longUrl, password);
 
-        resp.getWriter().write("{\"url\": \"" + url.getUrlShort() + "\"}");
+        String shortUrl = "http://127.0.0.1:8082/dl/" + url.getUrlShort();
+
+        resp.getWriter().write("{\"url\": \"" + shortUrl + "\"}");
     }
 }

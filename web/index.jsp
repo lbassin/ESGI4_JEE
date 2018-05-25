@@ -69,6 +69,12 @@
             password: document.querySelector('[name=password]').value
         };
 
+        if (!params.url) {
+            button.disabled = false;
+            event.preventDefault();
+            return;
+        }
+
         var searchParams = Object.keys(params).map(function (key) {
             return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
         }).join('&');

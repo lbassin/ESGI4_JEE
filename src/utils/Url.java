@@ -11,9 +11,11 @@ public class Url {
     private int expiredAt;
 
     static public Url createShortUrl(String longUrl, String password) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
         Url url = new Url();
         url.urlLong = longUrl;
-        url.urlShort = longUrl;
+        url.urlShort = String.valueOf(timestamp.getTime());
 
         url.save();
         Password.addPasswordToUrl(url, password);
