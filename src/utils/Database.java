@@ -9,8 +9,8 @@ public class Database {
     static private Connection connection;
     private static final String DB_HOSTNAME = "127.0.0.1";
     private static final String DB_DATABASE = "java";
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "root";
+    private static final String DB_USERNAME = "java";
+    private static final String DB_PASSWORD = "java";
 
     private Database() {
     }

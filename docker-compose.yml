@@ -1,0 +1,14 @@
+version: '3'
+services:
+    mysql:
+        ports:
+            - '3306:3306'
+        volumes:
+            - './docker/database:/var/lib/mysql'
+            - './database.sql:/docker-entrypoint-initdb.d/database.sql'
+        environment:
+            - MYSQL_DATABASE=java
+            - MYSQL_USER=java
+            - MYSQL_PASSWORD=java
+            - MYSQL_RANDOM_ROOT_PASSWORD=yes
+        image: 'mysql:5.7'

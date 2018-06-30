@@ -1,5 +1,7 @@
 package urls;
 
+import utils.Url;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +13,13 @@ public class URL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String url = req.getParameter("url");
+        String longUrl = req.getParameter("url");
         String password = req.getParameter("password");
 
-        System.out.println(url + " " + password);
+        Url url = Url.createShortUrl(longUrl, password);
 
-        resp.getWriter().write("{url: '" + url + "', password: '" + password + "'}");
+        String shortUrl = "http://127.0.0.1:8082/dl/" + url.getUrlShort();
+
+        resp.getWriter().write("{\"url\": \"" + shortUrl + "\"}");
     }
 }
