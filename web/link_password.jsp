@@ -1,3 +1,4 @@
+<%@ page import="utils.Url" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/layout/head.jsp"/>
 
@@ -8,9 +9,18 @@
             <div class="uk-card-body">
                 <h2 class="uk-text-center">Breizhlink</h2>
                 <form method="post">
+                    <% if (((Url) request.getAttribute("url")).isProtected()) { %>
                     <div class="uk-margin">
                         <input name="password" class="uk-input" type="password" placeholder="Password">
                     </div>
+                    <% } else { %>
+                    <div class="uk-margin">
+                        <p>Saisir le captcha : <%= request.getAttribute("captcha") %></p>
+                    </div>
+                    <div class="uk-margin">
+                        <input name="captcha" class="uk-input" type="text" placeholder="Captcha">
+                    </div>
+                    <% } %>
                     <div class="uk-margin uk-text-center">
                         <button type="submit" class="uk-button uk-button-default">Get link</button>
                     </div>
