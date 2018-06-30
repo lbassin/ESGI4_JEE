@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/dl/*")
+@WebServlet("/lk/*")
 public class Download extends HttpServlet {
 
     private String getShortUrlRequested(HttpServletRequest request) {
@@ -17,37 +17,59 @@ public class Download extends HttpServlet {
         return requestedUrl[requestedUrl.length - 1];
     }
 
+    private String generateCaptcha() {
+        return "abcd";
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String shortUrl = this.getShortUrlRequested(request);
+        Url url = Url.getByShortUrl(this.getShortUrlRequested(request));
 
-        Url url = Url.getByShortUrl(shortUrl);
-        String longUrl = url.getUrlLong();
-
-        if (longUrl.length() > 0 && url.isProtected()) {
-            this.getServletContext().getRequestDispatcher("/download_password.jsp").forward(request, response);
-            return;
+        if (request.getSession().getAttribute("error") != null) {
+            request.setAttribute("error", request.getSession().getAttribute("error"));
+            request.getSession().removeAttribute("error");
         }
 
-        request.setAttribute("longUrl", longUrl);
-        this.getServletContext().getRequestDispatcher("/download.jsp").forward(request, response);
+        request.removeAttribute("captcha");
+        if (!url.isProtected()) {
+            String captcha = this.generateCaptcha();
+
+            request.getSession().setAttribute("captcha", captcha);
+            request.setAttribute("captcha", captcha);
+        }
+
+        request.setAttribute("url", url);
+        this.getServletContext().getRequestDispatcher("/link_password.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String shortUrl = this.getShortUrlRequested(request);
-        String password = request.getParameter("password");
+
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        request.getSession().removeAttribute("captcha");
+
+        String passwordInput = request.getParameter("password");
+        String captchaInput = request.getParameter("captcha");
 
         Url url = Url.getByShortUrl(shortUrl);
-        boolean allowed = url.checkPassword(password);
 
-        if (!allowed) {
-            request.setAttribute("error", "Wrong password");
-            this.getServletContext().getRequestDispatcher("/download_password.jsp").forward(request, response);
+        String error = null;
+        if (captcha == null && !url.checkPassword(passwordInput)) {
+            error = "Wrong password";
+        }
+
+        if (captcha != null && !captcha.equals(captchaInput)) {
+            error = "Wrong captcha";
+        }
+
+        if (error != null) {
+            request.getSession().setAttribute("error", error);
+            response.sendRedirect(request.getRequestURI());
+
             return;
         }
 
-        request.setAttribute("longUrl", url.getUrlLong());
-        this.getServletContext().getRequestDispatcher("/download.jsp").forward(request, response);
+        response.sendRedirect(url.getUrlLong());
     }
 }

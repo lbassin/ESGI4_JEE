@@ -30,7 +30,7 @@ public class Url {
 
     public static Url getByShortUrl(String shortUrl) {
         Connection db = Database.getConnection();
-        String query = "SELECT id, url_long, expired_at FROM url WHERE url_short = ?";
+        String query = "SELECT * FROM url WHERE url_short = ?";
 
         Url url = new Url();
 
@@ -97,7 +97,7 @@ public class Url {
     }
 
     public String getFullUrlShort() {
-        return "http://127.0.0.1:8082/dl/" + this.urlShort;
+        return "http://127.0.0.1:8082/lk/" + this.urlShort;
     }
 
     public void setUrlShort(String urlShort) {
