@@ -25,9 +25,8 @@ DROP TABLE IF EXISTS `history`;
 CREATE TABLE `history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url_id` int(11) DEFAULT NULL,
-  `downloaded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `target_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip_address` varchar(255) DEFAULT NULL,
-  `country` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `history_url_id_fk` (`url_id`),
   CONSTRAINT `history_url_id_fk` FOREIGN KEY (`url_id`) REFERENCES `url` (`id`)

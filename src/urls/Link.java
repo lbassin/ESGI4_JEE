@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/lk/*")
-public class Download extends HttpServlet {
+public class Link extends HttpServlet {
 
     private String getShortUrlRequested(HttpServletRequest request) {
         String[] requestedUrl = request.getRequestURI().split("/");
@@ -70,6 +70,7 @@ public class Download extends HttpServlet {
             return;
         }
 
+        url.addHistory(request.getRemoteAddr());
         response.sendRedirect(url.getUrlLong());
     }
 }

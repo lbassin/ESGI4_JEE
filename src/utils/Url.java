@@ -242,4 +242,20 @@ public class Url {
 
         return url;
     }
+
+    public void addHistory(String remoteAddr) {
+        Connection db = Database.getConnection();
+        String query = "INSERT INTO `history` (url_id, ip_address) VALUES (?, ?)";
+
+        PreparedStatement statement = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setInt(1, this.id);
+            statement.setString(2, remoteAddr);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
