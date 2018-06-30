@@ -19,7 +19,6 @@ public class Stat extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         utils.Url url = utils.Url.getById(this.getUrlIdRequested(request));
 
-        request.setAttribute("chartData", "1,2,3,2,3,2,5,1");
         ArrayList<Integer> history = url.getHistoryByMonth();
         String chartData = "";
         for (Integer value : history) {
