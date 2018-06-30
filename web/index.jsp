@@ -7,56 +7,62 @@
         <div class="uk-card uk-card-default">
             <div class="uk-card-body">
                 <h2 class="uk-text-center">Breizhlink</h2>
-                <form method="post" action="/login">
+                <form method="post" action="/url">
                     <fieldset class="uk-fieldset">
-
                         <div class="uk-margin">
-                            <div class="uk-position-relative">
-                                            <span class="uk-form-icon">
-                                                <canvas uk-icon="icon: user" width="20" height="20" class="uk-icon"
-                                                        hidden="true"></canvas>
-                                            </span>
-                                <input name="email" class="uk-input" type="email" placeholder="Email">
-                            </div>
+                            <input name="url" class="uk-input" type="text" placeholder="URL">
                         </div>
-
                         <div class="uk-margin">
-                            <div class="uk-position-relative">
-                                            <span class="uk-form-icon">
-                                                <canvas uk-icon="icon: lock" width="20" height="20" class="uk-icon"
-                                                        hidden="true"></canvas>
-                                            </span>
-                                <input name="password" class="uk-input" type="password" placeholder="Mot de passe">
-                            </div>
+                            <label>
+                                <input class="uk-checkbox" type="checkbox" name="with-password">
+                                Sécuriser avec un mot de passe
+                            </label>
                         </div>
-
-                        <center>
-                            <div class="uk-margin">
-                                <a href="#">Mot de passe oublié ?</a>
-                            </div>
-
-                            <div class="uk-margin">
-                                <button type="submit" class="uk-button uk-button-primary">
-                                    Se connecter
-                                </button>
-                            </div>
-                        </center>
-
-                        <hr/>
-
-                        <center>
-                            <p>
-                                Pas encore de compte ?
-                            </p>
-                            <a href="register.html" class="uk-button uk-button-default">
-                                S'enregistrer
-                            </a>
-                        </center>
+                        <div class="uk-margin">
+                            <input name="password" class="uk-input" type="password" placeholder="Mot de passe"
+                                   style="display: none;">
+                        </div>
+                        <div class="uk-margin uk-text-center">
+                            <button id="submit" class="uk-button uk-button-default">Raccourcir</button>
+                        </div>
                     </fieldset>
                 </form>
+                <div class="uk-margin" id="response">
+
+                </div>
             </div>
         </div>
     </div>
-    <div class="uk-width-1-1@s uk-width-1-5@l uk-width-1-3@xl"></div>
 </div>
+
+<script>
+    document.querySelector('[name=with-password]').addEventListener('change', function () {
+        if (this.checked) {
+            document.querySelector('[name=password]').style.display = 'block';
+        } else {
+            document.querySelector('[name=password]').style.display = 'none';
+        }
+    });
+
+    document.querySelector('#submit').addEventListener('click', function (event) {
+        event.preventDefault();
+        var button = this;
+        button.disabled = true;
+
+        var request = new XMLHttpRequest();
+
+        request.addEventListener("load", function (response) {
+            button.disabled = false;
+            document.querySelector('#response').innerHTML = response.target.responseText;
+        }, false);
+
+        console.log(document.querySelector('[name=url]').value);
+        console.log(document.querySelector('[name=password]').value);
+
+        request.open('POST', '/url', false);
+        request.send("");
+    });
+</script>
+
+
 <jsp:include page="/WEB-INF/layout/foot.jsp"/>
