@@ -6,6 +6,7 @@
 <div uk-grid class="uk-child-width-1-1@s uk-child-width-2-3@l">
     <div class="uk-width-1-1@s uk-width-1-1@l uk-width-1-1@xl">
         <div>
+            <% if (((ArrayList<Url>) request.getAttribute("urls")).size() > 0) { %>
             <table class="uk-table uk-table-striped">
                 <thead>
                 <tr>
@@ -38,6 +39,9 @@
                 <% } %>
                 </tbody>
             </table>
+            <% } else { %>
+            <p style="text-align: center">No URL found</p>
+            <% } %>
         </div>
     </div>
 </div>

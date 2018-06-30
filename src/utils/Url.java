@@ -258,4 +258,33 @@ public class Url {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Integer> getHistoryByMonth() {
+        Connection db = Database.getConnection();
+        String query = "SELECT DATE_FORMAT(target_at, '%m') as month, count(*) FROM history WHERE url_id = ? GROUP BY month";
+
+        ArrayList<Integer> history = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            history.add(0);
+        }
+
+        PreparedStatement statement = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setInt(1, this.id);
+
+            ResultSet result = statement.executeQuery();
+            if (!result.isBeforeFirst()) {
+                return history;
+            }
+
+            while (result.next()) {
+                history.set(result.getInt(1) - 1, result.getInt(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return history;
+    }
 }
