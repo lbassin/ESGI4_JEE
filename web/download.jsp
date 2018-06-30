@@ -7,54 +7,24 @@
         <div class="uk-card uk-card-default">
             <div class="uk-card-body">
                 <h2 class="uk-text-center">Breizhlink</h2>
+                <% if (request.getAttribute("longUrl") != null) { %>
                 <div class="uk-margin uk-text-center">
                     Lien demandé :
+                    <a href="<%= request.getAttribute("longUrl") %>">
+                        <%= request.getAttribute("longUrl") %>
+                    </a>
                 </div>
                 <div class="uk-margin uk-text-center">
-                    <button id="submit" class="uk-button uk-button-default">S'y rendre</button>
+                    <a href="<%= request.getAttribute("longUrl") %>" class="uk-button uk-button-default">S'y rendre</a>
                 </div>
+                <% } else { %>
+                <div class="uk-margin uk-text-center">
+                    <p>La ressource n'existe pas</p>
+                </div>
+                <% } %>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelector('[name=with-password]').addEventListener('change', function () {
-        if (this.checked) {
-            document.querySelector('[name=password]').style.display = 'block';
-        } else {
-            document.querySelector('[name=password]').style.display = 'none';
-        }
-    });
-
-    document.querySelector('#submit').addEventListener('click', function (event) {
-        event.preventDefault();
-        var button = this;
-        button.disabled = true;
-
-        var request = new XMLHttpRequest();
-
-        request.addEventListener("load", function (data) {
-            button.disabled = false;
-            var response = JSON.parse(data.target.responseText);
-            document.querySelector('#output-short-url').style.display = 'block';
-            document.querySelector('#output-short-url input').value = response.url;
-        }, false);
-
-        var params = {
-            url: document.querySelector('[name=url]').value,
-            password: document.querySelector('[name=password]').value
-        };
-
-        var searchParams = Object.keys(params).map(function (key) {
-            return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
-        }).join('&');
-
-        request.open('POST', '/url', false);
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.send(searchParams);
-    });
-</script>
-
 
 <jsp:include page="/WEB-INF/layout/foot.jsp"/>

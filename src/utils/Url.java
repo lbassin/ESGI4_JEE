@@ -1,6 +1,7 @@
 package utils;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Url {
     private int id;
@@ -18,9 +19,62 @@ public class Url {
         url.urlShort = String.valueOf(timestamp.getTime());
 
         url.save();
-        Password.addPasswordToUrl(url, password);
+
+        if (password.length() > 0) {
+            Password.addPasswordToUrl(url, password);
+        }
 
         return url;
+    }
+
+    public static Url getByShortUrl(String shortUrl) {
+        Connection db = Database.getConnection();
+        String query = "SELECT id, url_long, expired_at FROM url WHERE url_short = ?";
+
+        Url url = new Url();
+
+        PreparedStatement statement = null;
+        ResultSet results = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setString(1, shortUrl);
+
+            results = statement.executeQuery();
+            if (!results.isBeforeFirst()) {
+                return url;
+            }
+
+            results.next();
+            url.setId(results.getInt("id"));
+            url.setUrlLong(results.getString("url_long"));
+            url.setExpiredAt(results.getInt("expired_at"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public ArrayList<String> getPasswords() {
+        String query = "SELECT password WHERE url_id = ?";
+        Connection db = Database.getConnection();
+
+        PreparedStatement statement = null;
+
+
+        return null;
+    }
+
+    public void setExpiredAt(int expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
+    public void setUrlLong(String urlLong) {
+        this.urlLong = urlLong;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -31,7 +85,7 @@ public class Url {
         return this.urlShort;
     }
 
-    public void save() {
+    private void save() {
         Connection db = Database.getConnection();
         String query = "INSERT INTO `url` (url_long, url_short) VALUES (?, ?)";
 
@@ -49,5 +103,56 @@ public class Url {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getUrlLong() {
+        return this.urlLong;
+    }
+
+    public boolean isProtected() {
+        Connection db = Database.getConnection();
+        String query = "SELECT COUNT(*) FROM `password` WHERE `url_id` = ?";
+
+        PreparedStatement statement = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setInt(1, this.id);
+
+            ResultSet rs = statement.executeQuery();
+            if (!rs.isBeforeFirst()) {
+                return false;
+            }
+            rs.next();
+
+            return rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean checkPassword(String password) {
+        Connection db = Database.getConnection();
+        String query = "SELECT COUNT(*) FROM `password` WHERE `url_id` = ? and `password` = ?";
+
+        PreparedStatement statement = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setInt(1, this.id);
+            statement.setString(2, password);
+
+            ResultSet rs = statement.executeQuery();
+            if (!rs.isBeforeFirst()) {
+                return false;
+            }
+            rs.next();
+
+            return rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
