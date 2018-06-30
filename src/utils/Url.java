@@ -8,8 +8,9 @@ public class Url {
     private String urlLong;
     private String urlShort;
     private int userId;
-    private int availableAt;
-    private int expiredAt;
+    private String createdAt;
+    private String availableAt;
+    private String expiredAt;
 
     static public Url createShortUrl(String longUrl, String password) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -45,9 +46,7 @@ public class Url {
             }
 
             results.next();
-            url.setId(results.getInt("id"));
-            url.setUrlLong(results.getString("url_long"));
-            url.setExpiredAt(results.getInt("expired_at"));
+            url = Url.resultToObject(results);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,18 +54,30 @@ public class Url {
         return url;
     }
 
-    public ArrayList<String> getPasswords() {
-        String query = "SELECT password WHERE url_id = ?";
+    public static Url getById(int id) {
         Connection db = Database.getConnection();
+        String query = "SELECT * FROM `url` WHERE `id` = ?";
+
+        Url url = new Url();
 
         PreparedStatement statement = null;
+        ResultSet results = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setInt(1, id);
 
+            results = statement.executeQuery();
+            if (!results.isBeforeFirst()) {
+                return url;
+            }
 
-        return null;
-    }
+            results.next();
+            url = Url.resultToObject(results);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-    public void setExpiredAt(int expiredAt) {
-        this.expiredAt = expiredAt;
+        return url;
     }
 
     public void setUrlLong(String urlLong) {
@@ -83,6 +94,46 @@ public class Url {
 
     public String getUrlShort() {
         return this.urlShort;
+    }
+
+    public String getFullUrlShort() {
+        return "http://127.0.0.1:8082/dl/" + this.urlShort;
+    }
+
+    public void setUrlShort(String urlShort) {
+        this.urlShort = urlShort;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getAvailableAt() {
+        return availableAt;
+    }
+
+    public void setAvailableAt(String availableAt) {
+        this.availableAt = availableAt;
+    }
+
+    public String getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(String expiredAt) {
+        this.expiredAt = expiredAt;
     }
 
     private void save() {
@@ -154,5 +205,41 @@ public class Url {
         }
 
         return false;
+    }
+
+    static public ArrayList<Url> getAllByUser(int userId) {
+        Connection db = Database.getConnection();
+        String query = "SELECT * FROM `url` WHERE `user_id` = ?";
+
+        ArrayList<Url> urls = new ArrayList<>();
+        PreparedStatement statement = null;
+        try {
+            statement = db.prepareStatement(query);
+            statement.setInt(1, userId);
+
+            ResultSet results = statement.executeQuery();
+            if (!results.isBeforeFirst()) {
+                return urls;
+            }
+
+            while (results.next()) {
+                urls.add(Url.resultToObject(results));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return urls;
+    }
+
+    static private Url resultToObject(ResultSet result) throws SQLException {
+        Url url = new Url();
+
+        url.setId(result.getInt("id"));
+        url.setUrlShort(result.getString("url_short"));
+        url.setUrlLong(result.getString("url_long"));
+        url.setCreatedAt(result.getDate("created_at").toString());
+
+        return url;
     }
 }

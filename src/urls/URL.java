@@ -18,8 +18,6 @@ public class URL extends HttpServlet {
 
         Url url = Url.createShortUrl(longUrl, password);
 
-        String shortUrl = "http://127.0.0.1:8082/dl/" + url.getUrlShort();
-
-        resp.getWriter().write("{\"url\": \"" + shortUrl + "\"}");
+        resp.getWriter().write("{\"url\": \"" + url.getFullUrlShort() + "\"}");
     }
 }
