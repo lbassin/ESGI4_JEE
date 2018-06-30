@@ -65,6 +65,10 @@ CREATE TABLE `type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+INSERT INTO `type` (id, name) VALUES (1, 'Particulier');
+INSERT INTO `type` (id, name) VALUES (2, 'Entreprise');
+INSERT INTO `type` (id, name) VALUES (3, 'Association');
+
 --
 -- Table structure for table `url`
 --
