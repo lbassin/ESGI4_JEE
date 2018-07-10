@@ -35,4 +35,25 @@ public class User {
 
         return connectionState;
     }
+
+    static public void registerUser(String username, String email, String password) {
+        Connection connection = Database.getConnection();
+
+        String query = "INSERT INTO `user` (username, email, password, verified, type_id) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, email);
+            statement.setString(3, password);
+            statement.setInt(4, 0);
+            statement.setString(5, null);
+
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
