@@ -1,5 +1,6 @@
 package urls;
 
+import utils.Mail;
 import utils.User;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet("/register")
 public class Register extends HttpServlet {
@@ -42,7 +44,13 @@ public class Register extends HttpServlet {
             e.printStackTrace();
         }
 
-        User.registerUser(username, email, password);
+        String randomStringVerif = UUID.randomUUID().toString();
+
+        User.registerUser(username, email, password, randomStringVerif);
+
+        Mail.send(email,
+                "Activation de compte",
+                "Veuillez cliquer sur ce lien pour activer votre compte : http://localhost:8082/verif/" + randomStringVerif);
 
         resp.sendRedirect("/login");
     }

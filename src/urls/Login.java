@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
         }
 
         User user = new User(email, password);
-
+        
         if (user.checkUser()) {
             req.getSession().setAttribute("email", email);
             resp.sendRedirect("/dashboard");
