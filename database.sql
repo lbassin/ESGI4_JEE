@@ -102,6 +102,7 @@ CREATE TABLE `user` (
   `password` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `verified` tinyint(4) DEFAULT '0',
+  `verif_id` varchar(255) DEFAULT NULL,
   `type_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_type_id_fk` (`type_id`),

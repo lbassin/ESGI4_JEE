@@ -1,5 +1,6 @@
 package urls;
 
+import utils.Mail;
 import utils.User;
 
 import javax.servlet.ServletException;
@@ -7,23 +8,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
-@WebServlet("/login")
-public class Login extends HttpServlet {
+@WebServlet("/register")
+public class Register extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Login Get");
-        this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+        System.out.println("Register Get");
+        this.getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-
-        HttpSession session = req.getSession();
+        String confirmPassword = req.getParameter("confirm-password");
 
         try {
             this.validateEmail(email);
@@ -37,15 +38,21 @@ public class Login extends HttpServlet {
             e.printStackTrace();
         }
 
-        User user = new User(email, password);
-
-        if (user.checkUser()) {
-            session.setAttribute("id_account", user.getId());
-            req.getSession().setAttribute("email", email);
-            resp.sendRedirect("/dashboard");
-        } else {
-            resp.sendRedirect("/login");
+        try {
+            this.validationPassword(confirmPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        String randomStringVerif = UUID.randomUUID().toString();
+
+        User.registerUser(username, email, password, randomStringVerif);
+
+        Mail.send(email,
+                "Activation de compte",
+                "Veuillez cliquer sur ce lien pour activer votre compte : http://localhost:8082/verif/" + randomStringVerif);
+
+        resp.sendRedirect("/login");
     }
 
     private void validateEmail(String email) throws Exception {

@@ -8,9 +8,10 @@
         <meta name="keywords" content="Admin,Panel,HTML,CSS,XML,JavaScript">
         <meta name="author" content="Erik Campobadal">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/assets/uikit/css/uikit.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/uikit/css/uikit.css" rel="stylesheet">
     </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky" style="">
     <div class="uk-container uk-container-expand">
         <nav class="uk-navbar">
@@ -25,7 +26,7 @@
                     <li><a href="">Présentation</a></li>
                 </ul>
                 <div class="uk-navbar-item uk-visible@m">
-                    <a href="/login" class="uk-button uk-button-default tm-button-default uk-icon"> Se connecter
+                    <a href="${pageContext.request.contextPath}/login" class="uk-button uk-button-default tm-button-default uk-icon"> Se connecter
                     <canvas uk-icon="icon: sign-in" width="20" height="20" class="uk-icon" hidden="true"></canvas>
                     </a>
                 </div>

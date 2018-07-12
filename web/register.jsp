@@ -16,6 +16,16 @@
                                                 <canvas uk-icon="icon: user" width="20" height="20" class="uk-icon"
                                                         hidden="true"></canvas>
                                             </span>
+                                <input name="username" class="uk-input" type="text" placeholder="Nom d'utilisateur">
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <div class="uk-position-relative">
+                                            <span class="uk-form-icon">
+                                                <canvas uk-icon="icon: user" width="20" height="20" class="uk-icon"
+                                                        hidden="true"></canvas>
+                                            </span>
                                 <input name="email" class="uk-input" type="email" placeholder="Email">
                             </div>
                         </div>
@@ -30,14 +40,20 @@
                             </div>
                         </div>
 
+                        <div class="uk-margin">
+                            <div class="uk-position-relative">
+                                            <span class="uk-form-icon">
+                                                <canvas uk-icon="icon: lock" width="20" height="20" class="uk-icon"
+                                                        hidden="true"></canvas>
+                                            </span>
+                                <input name="confirm-password" class="uk-input" type="password" placeholder="Confirmer le mot de passe">
+                            </div>
+                        </div>
+
                         <center>
                             <div class="uk-margin">
-                                <a href="#">Mot de passe oublié ?</a>
-                            </div>
-
-                            <div class="uk-margin">
                                 <button type="submit" class="uk-button uk-button-primary">
-                                    Se connecter
+                                    S'enregistrer
                                 </button>
                             </div>
                         </center>
@@ -46,10 +62,10 @@
 
                         <center>
                             <p>
-                                Pas encore de compte ?
+                                Déjà un compte ?
                             </p>
-                            <a href="/register" class="uk-button uk-button-default">
-                                S'enregistrer
+                            <a href="/login" class="uk-button uk-button-default">
+                                Se connecter
                             </a>
                         </center>
                     </fieldset>
