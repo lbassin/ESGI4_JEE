@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class User {
+    private Integer id;
     private String email;
     private String password;
 
@@ -29,11 +30,19 @@ public class User {
             rs = statement.executeQuery();
 
             connectionState = rs.isBeforeFirst();
+
+            if ( rs.next() ) {
+                this.id = rs.getInt("id");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return connectionState;
+    }
+
+    public Integer getId() {
+        return this.id;
     }
 
     static public void registerUser(String username, String email, String password, String verifID) {

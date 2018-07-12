@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
@@ -22,6 +23,8 @@ public class Login extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        HttpSession session = req.getSession();
+
         try {
             this.validateEmail(email);
         } catch (Exception e) {
@@ -35,8 +38,9 @@ public class Login extends HttpServlet {
         }
 
         User user = new User(email, password);
-        
+
         if (user.checkUser()) {
+            session.setAttribute("id_account", user.getId());
             req.getSession().setAttribute("email", email);
             resp.sendRedirect("/dashboard");
         } else {
