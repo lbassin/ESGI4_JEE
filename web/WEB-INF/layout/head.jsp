@@ -26,9 +26,15 @@
                     <li><a href="">Présentation</a></li>
                 </ul>
                 <div class="uk-navbar-item uk-visible@m">
-                    <a href="${pageContext.request.contextPath}/login" class="uk-button uk-button-default tm-button-default uk-icon"> Se connecter
-                    <canvas uk-icon="icon: sign-in" width="20" height="20" class="uk-icon" hidden="true"></canvas>
-                    </a>
+                    <% if(request.getSession().getAttribute("id_account") == null) {%>
+                        <a href="${pageContext.request.contextPath}/login" class="uk-button uk-button-default tm-button-default uk-icon"> Se connecter
+                        <canvas uk-icon="icon: sign-in" width="20" height="20" class="uk-icon" hidden="true"></canvas>
+                        </a>
+                    <% } else { %>
+                        <a href="${pageContext.request.contextPath}/logout" class="uk-button uk-button-default tm-button-default uk-icon"> Déconnexion
+                        <canvas uk-icon="icon: sign-in" width="20" height="20" class="uk-icon" hidden="true"></canvas>
+                        </a>
+                    <% } %>
                 </div>
                 <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-navbar-toggle-icon uk-icon">
                     <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1">
