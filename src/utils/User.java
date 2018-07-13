@@ -19,7 +19,7 @@ public class User {
         Connection connection = Database.getConnection();
         boolean connectionState = false;
 
-        String query = "SELECT * FROM `user` WHERE email = ? AND password = ? LIMIT 1";
+        String query = "SELECT * FROM `user` WHERE email = ? AND password = ? AND verified = 1 LIMIT 1";
 
         PreparedStatement statement;
         ResultSet rs;
