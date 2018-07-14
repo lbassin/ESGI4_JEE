@@ -22,7 +22,10 @@
             </div>
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav uk-visible@m">
-                    <li class="uk-active"><a href="/">Accueil</a></li>
+                    <li class="uk-active"><a href="${pageContext.request.contextPath}/">Accueil</a></li>
+                    <% if(request.getSession().getAttribute("id_account") != null) {%>
+                        <li class="uk-active"><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
+                    <% } %>
                 </ul>
                 <div class="uk-navbar-item uk-visible@m">
                     <% if(request.getSession().getAttribute("id_account") == null) {%>

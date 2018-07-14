@@ -10,7 +10,6 @@ import java.io.IOException;
 @WebServlet("")
 public class Index extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Index Get");
         this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }
