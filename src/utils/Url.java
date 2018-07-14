@@ -12,7 +12,7 @@ public class Url {
     private String availableAt;
     private String expiredAt;
 
-    static public Url createShortUrl(String longUrl, String password) {
+    static public Url createShortUrl(String longUrl, String password){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         Url url = new Url();
@@ -22,7 +22,9 @@ public class Url {
         url.save();
 
         if (password.length() > 0) {
-            Password.addPasswordToUrl(url, password);
+            for (String passphrase : password.split("\n")) {
+                Password.addPasswordToUrl(url, passphrase);
+            }
         }
 
         return url;
