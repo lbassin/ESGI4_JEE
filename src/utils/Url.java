@@ -162,7 +162,7 @@ public class Url {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date availableAt = null;
-            if (this.availableAt != null & this.availableAt.length() > 0) {
+            if (this.availableAt != null && this.availableAt.length() > 0) {
                 availableAt = new Date(format.parse(this.availableAt).getTime());
             }
 
@@ -176,7 +176,13 @@ public class Url {
             statement = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, this.urlLong);
             statement.setString(2, this.urlShort);
-            statement.setInt(3, this.userId);
+
+            if (this.userId != 0) {
+                statement.setInt(3, this.userId);
+            } else {
+                statement.setNull(3, Types.INTEGER);
+            }
+
             statement.setDate(4, availableAt);
             statement.setDate(5, expiredAt);
 
