@@ -1,6 +1,7 @@
 package urls.dashboard;
 
 import utils.Database;
+import utils.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +19,13 @@ import java.sql.SQLException;
 public class Account extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getSession().getAttribute("id_account").toString());
+        User user = User.getUser(id);
+
+        if (user != null) {
+            request.setAttribute("user", user);
+        }
+
         this.getServletContext().getRequestDispatcher("/dashboard/account.jsp").forward(request, response);
     }
 
@@ -75,7 +83,8 @@ public class Account extends HttpServlet {
             statementUpdate.setInt(4, id_account);
             statementUpdate.executeUpdate();
 
-            resp.sendRedirect("/login");
+            req.getSession().setAttribute("flash", "Account successfully updated");
+            resp.sendRedirect("/dashboard");
         } catch (SQLException e) {
             e.printStackTrace();
         }

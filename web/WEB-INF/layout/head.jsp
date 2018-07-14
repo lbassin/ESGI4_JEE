@@ -23,7 +23,6 @@
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav uk-visible@m">
                     <li class="uk-active"><a href="/">Accueil</a></li>
-                    <li><a href="">Présentation</a></li>
                 </ul>
                 <div class="uk-navbar-item uk-visible@m">
                     <% if(request.getSession().getAttribute("id_account") == null) {%>
@@ -48,5 +47,13 @@
     </div>
 </div>
 <div class="content-background">
+    <% if (request.getSession().getAttribute("flash") != null) { %>
+        <div class="uk-margin">
+        <div class="uk-alert-success uk-text-center" uk-alert>
+        <p><%= request.getSession().getAttribute("flash") %></p>
+            <% request.getSession().removeAttribute("flash");%>
+        </div>
+        </div>
+    <% } %>
     <div class="uk-section-large">
         <div class="uk-container uk-container-large">

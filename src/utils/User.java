@@ -7,8 +7,12 @@ import java.sql.SQLException;
 
 public class User {
     private Integer id;
+    private String username;
     private String email;
     private String password;
+
+    public User() {
+    }
 
     public User(String email, String password) {
         this.email = email;
@@ -31,7 +35,7 @@ public class User {
 
             connectionState = rs.isBeforeFirst();
 
-            if ( rs.next() ) {
+            if (rs.next()) {
                 this.id = rs.getInt("id");
             }
         } catch (SQLException e) {
@@ -64,6 +68,49 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    static public User getUser(int id) {
+        Connection connection = Database.getConnection();
+
+        String query = "SELECT * FROM `user` WHERE id = ?";
+
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                return new User();
+            }
+
+            rs.next();
+
+            User user = new User();
+            user.id = rs.getInt("id");
+            user.username = rs.getString("username");
+            user.email = rs.getString("email");
+            user.password = rs.getString("password");
+
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new User();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
