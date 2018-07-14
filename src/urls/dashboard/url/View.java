@@ -1,4 +1,4 @@
-package urls.dashboard;
+package urls.dashboard.url;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/dashboard/url/*")
-public class Stat extends HttpServlet {
+@WebServlet("/dashboard/url/view/*")
+public class View extends HttpServlet {
 
     private int getUrlIdRequested(HttpServletRequest request) {
         String[] requestedUrl = request.getRequestURI().split("/");
@@ -28,6 +28,6 @@ public class Stat extends HttpServlet {
 
         request.setAttribute("chartData", chartData);
         request.setAttribute("url", url);
-        this.getServletContext().getRequestDispatcher("/dashboard/stat.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/dashboard/url/view.jsp").forward(request, response);
     }
 }

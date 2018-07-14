@@ -3,8 +3,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/layout/head.jsp"/>
 
-<div uk-grid class="uk-child-width-1-1@s uk-child-width-2-3@l">
+<div uk-grid class="uk-child-width-1-1@s uk-child-width-2-3@l" style="margin-top: -60px">
     <div class="uk-width-1-1@s uk-width-1-1@l uk-width-1-1@xl">
+        <div class="uk-width-small uk-align-right">
+            <a href="/dashboard/url/new">
+                <button class="uk-button uk-button-primary">New url</button>
+            </a>
+        </div>
         <div>
             <% if (((ArrayList<Url>) request.getAttribute("urls")).size() > 0) { %>
             <table class="uk-table uk-table-striped">
@@ -33,7 +38,7 @@
                         <%= url.getCreatedAt() %>
                     </td>
                     <td>
-                        <a href="/dashboard/url/<%= url.getId() %>">Stats</a>
+                        <a href="/dashboard/url/view/<%= url.getId() %>">Stats</a>
                     </td>
                 </tr>
                 <% } %>
