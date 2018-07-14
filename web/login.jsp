@@ -41,10 +41,6 @@
 
                         <center>
                             <div class="uk-margin">
-                                <a href="#">Mot de passe oublié ?</a>
-                            </div>
-
-                            <div class="uk-margin">
                                 <button type="submit" class="uk-button uk-button-primary">
                                     Se connecter
                                 </button>
