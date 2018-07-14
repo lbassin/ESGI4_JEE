@@ -1,6 +1,8 @@
 package utils;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Url {
@@ -12,7 +14,7 @@ public class Url {
     private String availableAt;
     private String expiredAt;
 
-    static public Url createShortUrl(String longUrl, String password, User user) {
+    static public Url createShortUrl(String longUrl, String password, User user, String availableAt, String expiredAt) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         Url url = new Url();
@@ -23,7 +25,18 @@ public class Url {
             url.userId = user.getId();
         }
 
-        url.save();
+        if (availableAt != null) {
+            url.availableAt = availableAt;
+        }
+        if (expiredAt != null) {
+            url.expiredAt = expiredAt;
+        }
+
+        try {
+            url.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if (password.length() > 0) {
             for (String passphrase : password.split("\n")) {
@@ -142,16 +155,31 @@ public class Url {
         this.expiredAt = expiredAt;
     }
 
-    private void save() {
+    private void save() throws ParseException {
         Connection db = Database.getConnection();
-        String query = "INSERT INTO `url` (url_long, url_short, user_id) VALUES (?, ?, ?)";
 
         PreparedStatement statement = null;
         try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date availableAt = null;
+            if (this.availableAt != null & this.availableAt.length() > 0) {
+                availableAt = new Date(format.parse(this.availableAt).getTime());
+            }
+
+            Date expiredAt = null;
+            if (this.expiredAt != null && this.expiredAt.length() > 0) {
+                expiredAt = new Date(format.parse(this.expiredAt).getTime());
+            }
+
+            String query = "INSERT INTO `url` (url_long, url_short, user_id, available_at, expired_at) VALUES (?, ?, ?, ?, ?)";
+
             statement = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, this.urlLong);
             statement.setString(2, this.urlShort);
             statement.setInt(3, this.userId);
+            statement.setDate(4, availableAt);
+            statement.setDate(5, expiredAt);
+
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();

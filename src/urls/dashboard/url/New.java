@@ -23,11 +23,13 @@ public class New extends HttpServlet {
         String longUrl = request.getParameter("url");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
+        String availableAt = request.getParameter("startDate");
+        String expiredAt = request.getParameter("endDate");
 
         int userId = Integer.parseInt(request.getSession().getAttribute("id_account").toString());
         User user = User.getUser(userId);
 
-        utils.Url url = utils.Url.createShortUrl(longUrl, password, user);
+        utils.Url url = utils.Url.createShortUrl(longUrl, password, user, availableAt, expiredAt);
 
         if (email != null && email.length() > 0) {
             String message = "This is a link : " + url.getFullUrlShort();

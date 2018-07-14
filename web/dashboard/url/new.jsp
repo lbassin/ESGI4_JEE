@@ -101,6 +101,7 @@
         }
     });
 
+    document.querySelector('[name=startDate]').value = new Date().toLocaleDateString();
 
     document.querySelector('#submit').addEventListener('click', function (event) {
         event.preventDefault();
