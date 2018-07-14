@@ -27,14 +27,11 @@ public class Login extends HttpServlet {
 
         try {
             this.validateEmail(email);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             this.validationPassword(password);
         } catch (Exception e) {
-            e.printStackTrace();
+            req.getSession().setAttribute("error", e.getMessage());
+            resp.sendRedirect("/login");
+            return;
         }
 
         User user = new User(email, password);
@@ -44,23 +41,24 @@ public class Login extends HttpServlet {
             req.getSession().setAttribute("email", email);
             resp.sendRedirect("/dashboard");
         } else {
+            req.getSession().setAttribute("error", "Identifiants invalides ou compte non activé");
             resp.sendRedirect("/login");
         }
     }
 
     private void validateEmail(String email) throws Exception {
-        if (email != null && !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" )) {
-            throw new Exception( "Merci de saisir une adresse mail valide." );
+        if (email != null && !email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+            throw new Exception("Merci de saisir une adresse mail valide.");
         }
     }
 
     private void validationPassword(String password) throws Exception {
         if (password != null) {
             if (password.length() < 3) {
-                throw new Exception( "Le mot de passe doit contenir au moins 3 caractères." );
+                throw new Exception("Le mot de passe doit contenir au moins 3 caractères.");
             }
         } else {
-            throw new Exception( "Merci de saisir votre mot de passe." );
+            throw new Exception("Merci de saisir votre mot de passe.");
         }
     }
 }

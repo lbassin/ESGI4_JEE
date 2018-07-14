@@ -10,6 +10,15 @@
                 <form method="post">
                     <fieldset class="uk-fieldset">
 
+                        <% if (request.getSession().getAttribute("error") != null) { %>
+                        <div class="uk-margin">
+                            <div class="uk-alert-danger" uk-alert>
+                                <p><%= request.getSession().getAttribute("error") %></p>
+                                <% request.getSession().removeAttribute("error");%>
+                            </div>
+                        </div>
+                        <% } %>
+
                         <div class="uk-margin">
                             <div class="uk-position-relative">
                                             <span class="uk-form-icon">
@@ -31,10 +40,6 @@
                         </div>
 
                         <center>
-                            <div class="uk-margin">
-                                <a href="#">Mot de passe oublié ?</a>
-                            </div>
-
                             <div class="uk-margin">
                                 <button type="submit" class="uk-button uk-button-primary">
                                     Se connecter
@@ -59,7 +64,5 @@
     </div>
     <div class="uk-width-1-1@s uk-width-1-5@l uk-width-1-3@xl"></div>
 </div>
-
-<p class="${empty form.errors ? 'uk-alert-success' : 'uk-alert-danger'}">${form.result}</p>
 
 <jsp:include page="/WEB-INF/layout/foot.jsp"/>

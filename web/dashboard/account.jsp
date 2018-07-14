@@ -1,3 +1,4 @@
+<%@ page import="utils.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/layout/head.jsp"/>
 
@@ -15,7 +16,12 @@
                                             <canvas uk-icon="icon: user" width="20" height="20" class="uk-icon"
                                                     hidden="true"></canvas>
                                         </span>
-                                <input name="username" class="uk-input" type="text" placeholder="Nom d'utilisateur">
+                                <input name="username"
+                                       class="uk-input"
+                                       type="text"
+                                       placeholder="Nom d'utilisateur"
+                                       value="<%= ((User)request.getAttribute("user")).getUsername() %>"
+                                >
                             </div>
                         </div>
 
@@ -25,7 +31,12 @@
                                             <canvas uk-icon="icon: user" width="20" height="20" class="uk-icon"
                                                     hidden="true"></canvas>
                                         </span>
-                                <input name="email" class="uk-input" type="email" placeholder="Email">
+                                <input name="email"
+                                       class="uk-input"
+                                       type="email"
+                                       placeholder="Email"
+                                       value="<%= ((User)request.getAttribute("user")).getEmail() %>"
+                                >
                             </div>
                         </div>
 
@@ -45,7 +56,8 @@
                                             <canvas uk-icon="icon: lock" width="20" height="20" class="uk-icon"
                                                     hidden="true"></canvas>
                                         </span>
-                                <input name="confirm-password" class="uk-input" type="password" placeholder="Confirmer le mot de passe">
+                                <input name="confirm-password" class="uk-input" type="password"
+                                       placeholder="Confirmer le mot de passe">
                             </div>
                         </div>
 
