@@ -14,7 +14,7 @@ public class Url extends HttpServlet {
         String longUrl = req.getParameter("url");
         String password = req.getParameter("password");
 
-        utils.Url url = utils.Url.createShortUrl(longUrl, password);
+        utils.Url url = utils.Url.createShortUrl(longUrl, password, null);
 
         resp.getWriter().write("{\"url\": \"" + url.getFullUrlShort() + "\"}");
     }

@@ -12,12 +12,16 @@ public class Url {
     private String availableAt;
     private String expiredAt;
 
-    static public Url createShortUrl(String longUrl, String password){
+    static public Url createShortUrl(String longUrl, String password, User user) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         Url url = new Url();
         url.urlLong = longUrl;
         url.urlShort = String.valueOf(timestamp.getTime());
+
+        if (user != null) {
+            url.userId = user.getId();
+        }
 
         url.save();
 
@@ -140,13 +144,14 @@ public class Url {
 
     private void save() {
         Connection db = Database.getConnection();
-        String query = "INSERT INTO `url` (url_long, url_short) VALUES (?, ?)";
+        String query = "INSERT INTO `url` (url_long, url_short, user_id) VALUES (?, ?, ?)";
 
         PreparedStatement statement = null;
         try {
             statement = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, this.urlLong);
             statement.setString(2, this.urlShort);
+            statement.setInt(3, this.userId);
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
