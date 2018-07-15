@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/lk/*")
 public class Link extends HttpServlet {
@@ -25,6 +28,14 @@ public class Link extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Url url = Url.getByShortUrl(this.getShortUrlRequested(request));
 
+        System.out.println(url.getAvailableAt());
+        System.out.println(url.getExpiredAt());
+
+        if (!this.isDateValid(url)) {
+            this.getServletContext().getRequestDispatcher("/link_expired.jsp").forward(request, response);
+            return;
+        }
+
         if (request.getSession().getAttribute("error") != null) {
             request.setAttribute("error", request.getSession().getAttribute("error"));
             request.getSession().removeAttribute("error");
@@ -40,6 +51,25 @@ public class Link extends HttpServlet {
 
         request.setAttribute("url", url);
         this.getServletContext().getRequestDispatcher("/link_password.jsp").forward(request, response);
+    }
+
+    private boolean isDateValid(Url url) {
+        if (url.getAvailableAt() == null && url.getExpiredAt() == null) {
+            return true;
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date availableAt = format.parse(url.getAvailableAt());
+            Date expiredAt = format.parse(url.getExpiredAt());
+            Date currentDate = new Date();
+
+            return availableAt.compareTo(currentDate) <= 0 && expiredAt.compareTo(currentDate) >= 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
     @Override

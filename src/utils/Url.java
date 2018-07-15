@@ -277,6 +277,17 @@ public class Url {
         url.setUrlLong(result.getString("url_long"));
         url.setCreatedAt(result.getDate("created_at").toString());
 
+        try {
+            if (result.getDate("available_at") != null) {
+                url.setAvailableAt(result.getDate("available_at").toString());
+            }
+
+            if (result.getDate("expired_at") != null) {
+                url.setExpiredAt(result.getDate("expired_at").toString());
+            }
+        } catch (SQLException e) {
+        }
+
         return url;
     }
 
