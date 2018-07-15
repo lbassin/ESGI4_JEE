@@ -68,6 +68,11 @@
                         <div class="uk-margin uk-text-center">
                             <button id="submit" class="uk-button uk-button-default">Raccourcir</button>
                         </div>
+
+                        <div class="uk-alert-danger ajax-error" uk-alert style="display: none;">
+                            <p></p>
+                        </div>
+
                         <div id="output-short-url" class="uk-margin" style="display: none;">
                             <label class="uk-form-label" for="form-horizontal-text">Votre url raccourcie</label>
                             <div class="uk-form-controls">
@@ -106,13 +111,23 @@
     document.querySelector('#submit').addEventListener('click', function (event) {
         event.preventDefault();
         var button = this;
-        // button.disabled = true;
+        button.disabled = true;
 
         var request = new XMLHttpRequest();
 
         request.addEventListener("load", function (data) {
             button.disabled = false;
             var response = JSON.parse(data.target.responseText);
+            if (response.error) {
+
+                document.querySelector('.ajax-error').style.display = 'block';
+                document.querySelector('.ajax-error > p').innerHTML = response.error;
+
+                return;
+            }
+            document.querySelector('.ajax-error').style.display = 'none';
+            document.querySelector('.ajax-error > p').innerHTML = '';
+
             document.querySelector('#output-short-url').style.display = 'block';
             document.querySelector('#output-short-url input').value = response.url;
         }, false);

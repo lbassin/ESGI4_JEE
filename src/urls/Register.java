@@ -50,7 +50,10 @@ public class Register extends HttpServlet {
 
         Mail.send(email,
                 "Activation de compte",
-                "Veuillez cliquer sur ce lien pour activer votre compte : http://localhost:8082/verif/" + randomStringVerif);
+                "Veuillez cliquer sur ce lien pour activer votre compte : http://localhost:8082/verif/" +
+                        randomStringVerif);
+
+        req.getSession().setAttribute("flash", "Inscription ok, veuillez valider votre adresse email");
 
         resp.sendRedirect("/login");
     }

@@ -14,7 +14,7 @@ public class Url {
     private String availableAt;
     private String expiredAt;
 
-    static public Url createShortUrl(String longUrl, String password, User user, String availableAt, String expiredAt) {
+    static public Url createShortUrl(String longUrl, String password, User user, String availableAt, String expiredAt) throws ParseException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         Url url = new Url();
@@ -32,11 +32,7 @@ public class Url {
             url.expiredAt = expiredAt;
         }
 
-        try {
-            url.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        url.save();
 
         if (password.length() > 0) {
             for (String passphrase : password.split("\n")) {

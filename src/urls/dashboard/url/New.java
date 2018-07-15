@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 
 @WebServlet("/dashboard/url/new")
 public class New extends HttpServlet {
@@ -29,13 +30,18 @@ public class New extends HttpServlet {
         int userId = Integer.parseInt(request.getSession().getAttribute("id_account").toString());
         User user = User.getUser(userId);
 
-        utils.Url url = utils.Url.createShortUrl(longUrl, password, user, availableAt, expiredAt);
+        try {
+            utils.Url url = utils.Url.createShortUrl(longUrl, password, user, availableAt, expiredAt);
 
-        if (email != null && email.length() > 0) {
-            String message = "This is a link : " + url.getFullUrlShort();
-            Mail.send(email, "Someone send you a link", message);
+            if (email != null && email.length() > 0) {
+                String message = "This is a link : " + url.getFullUrlShort();
+                Mail.send(email, "Someone send you a link", message);
+            }
+
+            response.getWriter().write("{\"url\": \"" + url.getFullUrlShort() + "\"}");
+        } catch (ParseException e) {
+            response.getWriter().write("{\"error\": \"Date non valide\"}");
+            e.printStackTrace();
         }
-
-        response.getWriter().write("{\"url\": \"" + url.getFullUrlShort() + "\"}");
     }
 }
