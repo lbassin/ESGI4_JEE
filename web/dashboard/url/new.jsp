@@ -139,7 +139,7 @@
             timeLimit: document.querySelector('[name="time-limit"]:checked') !== null,
             startDate: document.querySelector('[name=startDate]').value,
             endDate: document.querySelector('[name=endDate]').value,
-            email: document.querySelector('[name=email').value
+            email: document.querySelector('[name=email]').value
         };
 
         if (!params.url) {
